@@ -125,7 +125,12 @@ add secondary-branch
 ```
 $ git log
 commit aba37f730f3a1a46907863c6b868ad23ed35db71 (HEAD -> main, secondary-branch)
-...
+~
+    add secondary-branch
+
+commit 17913f8bddf38addda9b083e5dd78ef68ed72764
+~
+    init 001-git-merge-branch.txt
 ```
 
 - in secondary branch
@@ -133,7 +138,12 @@ commit aba37f730f3a1a46907863c6b868ad23ed35db71 (HEAD -> main, secondary-branch)
 ```
 $ git log
 commit aba37f730f3a1a46907863c6b868ad23ed35db71 (HEAD -> secondary-branch, main)
-...
+~
+    add secondary-branch
+
+commit 17913f8bddf38addda9b083e5dd78ef68ed72764
+~
+    init 001-git-merge-branch.txt
 ```
 
 ## 6. (Optional) delete secondary branch
