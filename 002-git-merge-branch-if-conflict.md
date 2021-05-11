@@ -136,8 +136,8 @@ add secondary-branch
 >>>>>>> secondary-branch
 ```
 
-### 5.3. record changes on main branch
-#### 5.3.1. update sample file
+### 5.3. resolve conflict
+#### 5.3.1. modify sample file
 ```
 $ vi 002-git-merge-branch-if-conflict.txt
 ---
