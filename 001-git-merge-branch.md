@@ -11,13 +11,15 @@
 ```
 $ cd ${REX-WORKSPACE}
 $ git init
+Initialized empty Git repository in /home/ubuntu/workspace/user/rex/git-merge-branch/.git/
 ```
 
 ### 1.2. create sample file (on main branch)
 ```
 $ vi 001-git-merge-branch.txt
 ---
-001-git-merge-branch init
+init 001-git-merge-branch
+add main-branch
 ---
 ```
 
@@ -25,16 +27,15 @@ $ vi 001-git-merge-branch.txt
 #### 1.3.1. add file to index
 ```
 $ git add 001-git-merge-branch.txt
-warning: LF will be replaced by CRLF in 001-git-merge-branch.txt.
-The file will have its original line endings in your working directory
 ```
 
 #### 1.3.2. commit
 ```
 $ git commit -m "init 001-git-merge-branch.txt"
-[main ed25085] init 001-git-merge-branch
+[main (root-commit) 17913f8] init 001-git-merge-branch.txt
  1 file changed, 1 insertion(+)
  create mode 100644 001-git-merge-branch.txt
+
 ```
 
 ## 2. configure secondary branch
@@ -67,7 +68,8 @@ $ git branch
 ```
 $ vi 001-git-merge-branch.txt
 ---
-001-git-merge-branch init
+init 001-git-merge-branch
+add main-branch
 add secondary-branch
 ---
 ```
@@ -76,14 +78,12 @@ add secondary-branch
 #### 3.2.1. add file to index
 ```
 $ git add 001-git-merge-branch.txt
-warning: LF will be replaced by CRLF in 001-git-merge-branch.txt.
-The file will have its original line endings in your working directory
 ```
 
 #### 3.2.2. commit
 ```
 $ git commit -m "add secondary-branch"
-[secondary-branch aba37f7] add secondary-branch
+[secondary-branch c957a83] add secondary-branch
  1 file changed, 1 insertion(+)
 ```
 
@@ -92,20 +92,19 @@ $ git commit -m "add secondary-branch"
 ```
 $ git checkout main
 Switched to branch 'main'
-Your branch is ahead of 'origin/main' by 1 commit.
-  (use "git push" to publish your local commits)
 ```
 
 ### 4.2. show sample file on main branch
 ```
 $ cat 001-git-merge-branch.txt
-001-git-merge-branch init
+init 001-git-merge-branch
+add main-branch
 ```
 
 ### 4.3. merge
 ```
 $ git merge secondary-branch
-Updating ed25085..aba37f7
+Updating 17913f8..c957a83
 Fast-forward
  001-git-merge-branch.txt | 1 +
  1 file changed, 1 insertion(+)
@@ -114,7 +113,8 @@ Fast-forward
 ### 4.4. show sample file on main branch
 ```
 $ cat 001-git-merge-branch.txt
-001-git-merge-branch init
+init 001-git-merge-branch
+add main-branch
 add secondary-branch
 ```
 
@@ -142,5 +142,5 @@ commit aba37f730f3a1a46907863c6b868ad23ed35db71 (HEAD -> secondary-branch, main)
 
 ```
 $ git branch -d secondary-branch
-Deleted branch secondary-branch (was ca6e37f).
+Deleted branch secondary-branch (was c957a83).
 ```
