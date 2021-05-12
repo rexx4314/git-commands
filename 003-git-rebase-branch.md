@@ -87,7 +87,7 @@ $ git commit -m "add secondary-branch"
  1 file changed, 1 insertion(+)
 ```
 
-## 4. rebase secondary branch
+## 4. rebase main branch
 ```console
 $ git rebase main
 Current branch secondary-branch is up to date.
