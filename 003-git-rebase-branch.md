@@ -54,6 +54,7 @@ Switched to branch 'secondary-branch'
 
 ```console
 $ git checkout -b secondary-branch
+Switched to branch 'secondary-branch'
 ```
 
 ### 2.3. show branch list
@@ -88,11 +89,6 @@ $ git commit -m "add secondary-branch"
 ```
 
 ## 4. rebase main branch
-```console
-$ git rebase main
-Current branch secondary-branch is up to date.
-```
-
 ```console
 $ git rebase -i HEAD~1
 Successfully rebased and updated refs/heads/secondary-branch.
