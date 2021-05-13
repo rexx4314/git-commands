@@ -3,7 +3,7 @@
 2. configure secondary branch
 3. update sample file on secondary branch
 4. update sample file on main branch
-5. merge secondary branch to main branch
+5. resolve conflict and merge secondary branch to main branch
 6. updates remote refs
 7. show commit logs
 8. (Optional) delete secondary branch
@@ -54,6 +54,7 @@ Switched to branch 'secondary-branch'
 
 ```console
 $ git checkout -b secondary-branch
+Switched to branch 'secondary-branch'
 ```
 
 ### 2.3. show branch list
@@ -119,7 +120,7 @@ $ git commit -m "add main-branch"
  1 file changed, 1 insertion(+)
 ```
 
-## 5. merge secondary branch to main branch
+## 5. resolve conflict and merge secondary branch to main branch
 ### 5.1. merge
 ```console
 $ git merge secondary-branch
