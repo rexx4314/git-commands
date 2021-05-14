@@ -2,23 +2,25 @@
 1. initialize (configure main branch)
 2. configure secondary branch
 3. rebase main branch
-4. reconfigure main branch (for conflict)
-5. reconfigure secondary branch (for conflict)
-6. rebase main branch (on secondary branch)
-7. resolve conflict
+4. modify sample file on main branch (for conflict)
+5. rebase main branch again
+6. resolve conflict
+7. rebase main branch with '--continue'
 8. merge secondary branch to main branch
 9. show commit logs
 10. (Optional) delete secondary branch
 
 ## 1. initialize (configure main branch)
-### 1.1. create empty git repository
+### 1.1. create empty git repository (main branch)
 ```console
 $ cd ${REX-WORKSPACE}
 $ git init
 Initialized empty Git repository in /home/ubuntu/workspace/user/rex/git-rebase-branch-if-conflict/.git/
 ```
 
-### 1.2. create sample file (on main branch)
+### 1.2. create sample file
+- on main branch
+
 ```console
 $ vi 004-git-rebase-branch-if-conflict.txt
 ```
@@ -27,27 +29,35 @@ $ vi 004-git-rebase-branch-if-conflict.txt
 init 004-git-rebase-branch-if-conflict
 ```
 
-### 1.3. record changes to repository (main branch)
+### 1.3. record changes to repository
 #### 1.3.1. add file to index
+- on main branch
+
 ```console
 $ git add 004-git-rebase-branch-if-conflict.txt
 ```
 
 #### 1.3.2. commit
+- on main branch
+
 ```console
 $ git commit -m "init 004-git-rebase-branch-if-conflict.txt"
-[main (root-commit) 0ee3bbe] init 004-git-rebase-branch-if-conflict.txt
+[main (root-commit) 270c807] init 004-git-rebase-branch-if-conflict.txt
  1 file changed, 1 insertion(+)
  create mode 100644 004-git-rebase-branch-if-conflict.txt
 ```
 
 ## 2. configure secondary branch
 ### 2.1. create secondary branch
+- on main branch
+
 ```console
 $ git branch secondary-branch
 ```
 
 ### 2.2. switch secondary branch
+- on main branch
+
 ```console
 $ git checkout secondary-branch
 Switched to branch 'secondary-branch'
@@ -57,10 +67,12 @@ Switched to branch 'secondary-branch'
 
 ```console
 $ git checkout -b secondary-branch
-Switched to branch 'secondary-branch'
+Switched to a new branch 'secondary-branch'
 ```
 
 ### 2.3. show branch list
+- on secondary branch
+
 ```console
 $ git branch
   main
@@ -68,6 +80,8 @@ $ git branch
 ```
 
 ### 2.4. update sample file
+- on secondary branch
+
 ```console
 $ vi 004-git-rebase-branch-if-conflict.txt
 ```
@@ -77,28 +91,34 @@ init 004-git-rebase-branch-if-conflict
 add secondary-branch
 ```
 
-### 2.5. record changes on secondary branch
+### 2.5. record changes to repository
 #### 2.5.1. add file to index
+- on secondary branch
+
 ```console
 $ git add 004-git-rebase-branch-if-conflict.txt
 ```
 
 #### 2.5.2. commit
+- on secondary branch
+
 ```console
 $ git commit -m "add secondary-branch"
-[secondary-branch 4d5bc5b] add secondary-branch
+[secondary-branch c745ae4] add secondary-branch
  1 file changed, 1 insertion(+)
 ```
 
 ## 3. rebase main branch
+- on secondary branch
+
 ```console
 $ git rebase -i main
 ```
 
 ```shell
-pick 4d5bc5b add secondary-branch
+pick c745ae4 add secondary-branch
 
-# Rebase 0ee3bbe..4d5bc5b onto 0ee3bbe (1 command)
+# Rebase 270c807..c745ae4 onto 270c807 (1 command)
 #
 # Commands:
 # p, pick = use commit
@@ -122,14 +142,18 @@ pick 4d5bc5b add secondary-branch
 Successfully rebased and updated refs/heads/secondary-branch.
 ```
 
-## 4. reconfigure main branch (for conflict)
+## 4. modify sample file on main branch (for conflict)
 ### 4.1. switch to main branch
+- on secondary branch
+
 ```console
 $ git checkout main
 Switched to branch 'main'
 ```
 
 ### 4.2. update sample file
+- on main branch
+
 ```console
 $ vi 004-git-rebase-branch-if-conflict.txt
 ```
@@ -139,59 +163,43 @@ init 004-git-rebase-branch-if-conflict
 add main-branch
 ```
 
-### 4.3. record changes on main branch
+### 4.3. record changes to repository
 #### 4.3.1. add file to index
+- on main branch
+
 ```console
 $ git add 004-git-rebase-branch-if-conflict.txt
 ```
 
 #### 4.3.2. commit
+- on main branch
+
 ```console
 $ git commit -m "add main-branch"
-[main c9be4c2] add main-branch
+[main 5a5184a] add main-branch
  1 file changed, 1 insertion(+)
 ```
 
-## 5. reconfigure secondary branch (for conflict)
+## 5. rebase main branch again
 ### 5.1. switch secondary branch
+- on main branch
+
 ```console
 $ git checkout secondary-branch
 Switched to branch 'secondary-branch'
 ```
 
-### 5.2. update sample file
-```console
-$ vi 004-git-rebase-branch-if-conflict.txt
-```
+### 5.2. rebase
+- on secondary branch
 
-```shell
-init 004-git-rebase-branch-if-conflict
-add secondary-branch
-add secondary-branch-2
-```
-
-### 5.3. record changes on secondary branch
-#### 5.3.1. add file to index
-```console
-$ git add 004-git-rebase-branch-if-conflict.txt
-```
-
-#### 5.3.2. commit
-```console
-$ git commit -m "add secondary-branch 2"
-[secondary-branch c480511] add secondary-branch 2
- 1 file changed, 1 insertion(+)
-```
-
-## 6. rebase main branch (on secondary branch)
 ```console
 $ git rebase -i main
 ```
 
 ```shell
-pick 4d5bc5b add secondary-branch
+pick c745ae4 add secondary-branch
 
-# Rebase c9be4c2..4d5bc5b onto c9be4c2 (1 command)
+# Rebase 5a5184a..c745ae4 onto 5a5184a (1 command)
 #
 # Commands:
 # p, pick = use commit
@@ -214,18 +222,20 @@ pick 4d5bc5b add secondary-branch
 ```console
 Auto-merging 004-git-rebase-branch-if-conflict.txt
 CONFLICT (content): Merge conflict in 004-git-rebase-branch-if-conflict.txt
-error: could not apply 4d5bc5b... add secondary-branch
+error: could not apply c745ae4... add secondary-branch
 
 Resolve all conflicts manually, mark them as resolved with
 "git add/rm <conflicted_files>", then run "git rebase --continue".
 You can instead skip this commit: run "git rebase --skip".
 To abort and get back to the state before "git rebase", run "git rebase --abort".
 
-Could not apply 4d5bc5b... add secondary-branch
+Could not apply c745ae4... add secondary-branch
 ```
 
-## 7. resolve conflict
-### 7.1. show sample file on secondary branch
+## 6. resolve conflict
+### 6.1. show sample file
+- on secondary branch
+
 ```console
 $ cat 004-git-rebase-branch-if-conflict.txt
 init 004-git-rebase-branch-if-conflict
@@ -233,11 +243,12 @@ init 004-git-rebase-branch-if-conflict
 add main-branch
 =======
 add secondary-branch
->>>>>>> 4d5bc5b... add secondary-branch
+>>>>>>> c745ae4... add secondary-branch
 ```
 
-### 7.2. resolve conflict
-#### 7.2.1. modify sample file
+### 6.2. modify sample file
+- on secondary branch
+
 ```console
 $ vi 004-git-rebase-branch-if-conflict.txt
 ```
@@ -248,10 +259,15 @@ add main-branch
 add secondary-branch
 ```
 
-#### 7.2.2. add file to index
+### 6.3. add file to index
+- on secondary branch
+
 ```console
 $ git add 004-git-rebase-branch-if-conflict.txt
 ```
+
+## 7. rebase main branch with '--continue'
+- on secondary branch
 
 ```console
 $ git rebase --continue
@@ -265,11 +281,11 @@ add secondary-branch
 #
 # Committer: Ubuntu <ubuntu@ip-10-0-0-150.ap-northeast-2.compute.internal>
 #
-# interactive rebase in progress; onto c9be4c2
+# interactive rebase in progress; onto 5a5184a
 # Last command done (1 command done):
-#    pick 4d5bc5b add secondary-branch
+#    pick c745ae4 add secondary-branch
 # No commands remaining.
-# You are currently rebasing branch 'secondary-branch' on 'c9be4c2'.
+# You are currently rebasing branch 'secondary-branch' on '5a5184a'.
 #
 # Changes to be committed:
 #       modified:   004-git-rebase-branch-if-conflict.txt
@@ -277,19 +293,23 @@ add secondary-branch
 ```
 
 ```console
-[detached HEAD 870fff2] add secondary-branch
+[detached HEAD d4a4ccf] add secondary-branch
  1 file changed, 1 insertion(+)
 Successfully rebased and updated refs/heads/secondary-branch.
 ```
 
 ## 8. merge secondary branch to main branch
 ### 8.1. switch to main branch
+- on secondary branch
+
 ```console
 $ git checkout main
 Switched to branch 'main'
 ```
 
-### 8.2. show sample file on main branch
+### 8.2. show sample file
+- on main branch
+
 ```console
 $ cat 004-git-rebase-branch-if-conflict.txt
 init 004-git-rebase-branch-if-conflict
@@ -297,15 +317,19 @@ add main-branch
 ```
 
 ### 8.3. merge
+- on main branch
+
 ```console
 $ git merge secondary-branch
-Updating c9be4c2..870fff2
+Updating 5a5184a..d4a4ccf
 Fast-forward
  004-git-rebase-branch-if-conflict.txt | 1 +
  1 file changed, 1 insertion(+)
 ```
 
-### 8.4. show sample file on main branch
+### 8.4. show sample file after merging
+- on main branch
+
 ```console
 $ cat 004-git-rebase-branch-if-conflict.txt
 init 004-git-rebase-branch-if-conflict
@@ -314,46 +338,44 @@ add secondary-branch
 ```
 
 ## 9. show commit logs
-
-- in main branch
+- on main branch
 
 ```console
 $ git log
-commit 870fff26bec35eee8aea7a8db0e1a247ee2925f2 (HEAD -> main, secondary-branch)
+commit d4a4ccf0dfd426f27eb46c922f938bdef9717c01 (HEAD -> main, secondary-branch)
 ~
     add secondary-branch
 
-commit c9be4c2a397ad75b78180a8d3c630f7418d002ac
+commit 5a5184a5c8b98e1bdd1c08d2a962b2089a62bd53
 ~
     add main-branch
 
-commit 0ee3bbe1355efbd33f16bef0952ca9027754a76d
+commit 270c807b75f6046f1f0a5260af06236451f62102
 ~
     init 004-git-rebase-branch-if-conflict.txt
 ```
 
-- in secondary branch
+- on secondary branch
 
 ```console
 $ git log
-commit 870fff26bec35eee8aea7a8db0e1a247ee2925f2 (HEAD -> secondary-branch, main)
+commit d4a4ccf0dfd426f27eb46c922f938bdef9717c01 (HEAD -> secondary-branch, main)
 ~
     add secondary-branch
 
-commit c9be4c2a397ad75b78180a8d3c630f7418d002ac
+commit 5a5184a5c8b98e1bdd1c08d2a962b2089a62bd53
 ~
     add main-branch
 
-commit 0ee3bbe1355efbd33f16bef0952ca9027754a76d
+commit 270c807b75f6046f1f0a5260af06236451f62102
 ~
     init 004-git-rebase-branch-if-conflict.txt
 ```
 
 ## 10. (Optional) delete secondary branch
-
-- in main branch
+- on main branch
 
 ```console
 $ git branch -d secondary-branch
-Deleted branch secondary-branch (was c957a83).
+Deleted branch secondary-branch (was d4a4ccf).
 ```
